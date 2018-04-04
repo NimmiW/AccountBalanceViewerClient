@@ -1,0 +1,31 @@
+<template>
+  <nav class="navbar navbar-light">
+    <div class="container">
+      <a class="navbar-brand" route-href="route: home">Account Balance Viewer</a>
+      <ul class="nav navbar-nav pull-xs-right">
+        <li class="${'nav-item' + (activeRoute === 'home' ? ' active' : '')}">
+          <a class="nav-link" route-href="route: home">Home</a>
+        </li>
+        <li class="${'nav-item' + (activeRoute === 'updatebalance' ? ' active' : '')}">
+          <a class="nav-link" route-href="route: updatebalance">Update Balance</a>
+        </li>
+        <li class="${'nav-item' + (activeRoute === 'reports' ? ' active' : '')}">
+          <a class="nav-link" route-href="route: reports">Generate Reports</a>
+        </li>
+        <li class="${'nav-item' + (activeRoute === 'login' ? ' active' : '')}"
+            show.bind="!sharedState.isAuthenticated">
+          <a class="nav-link" route-href="route: login">Sign In</a>
+        </li>
+        <li class="${'nav-item' + (activeRoute === 'register' ? ' active' : '')}"
+            show.bind="sharedState.currentUser.role=='ADMIN'">
+          <a class="nav-link" route-href="route: register">Register New Users</a>
+        </li>
+
+        <li class='nav-item'
+            show.bind="sharedState.isAuthenticated">
+          <a class="nav-link" click.delegate="logout()">${sharedState.currentUser.userName} Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</template>

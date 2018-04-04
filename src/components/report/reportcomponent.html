@@ -1,0 +1,32 @@
+<template>
+
+  <div class="home-page">
+
+    <div class="banner">
+      <div class="container">
+        <h1 class="logo-font">Yearly Report</h1>
+        <p if.bind="!sharedState.isAuthenticated">Please Sign with your credentials to view to the Account blances of this month</p>
+        <p if.bind="sharedState.currentUser.role!='ADMIN'">You are not allowed to do actions in this page.</p>
+        <p if.bind="sharedState.currentUser.role=='ADMIN'">Select any year you want to view the balance chanage.</p>
+      </div>
+    </div>
+  
+    <div class="container page" if.bind="sharedState.currentUser.role=='ADMIN'">
+      <form>
+        <div class="form-group">
+          <label for="year">Enter an the year to generate the report...</label>
+          <input type="number" class="form-control" value.bind="year" placeholder="year " min="1900" max="2100">
+        </div>
+        <div class="form-group">
+            <button class="btn" click.delegate="getReport()">Generate Report</button>
+        </div>
+      </form>
+
+
+      <div class="article-preview" show.bind="!reportdata">
+        Loading...
+      </div>
+      <canvas ref="chart" ></canvas>
+    </div>
+  </div>
+</template>

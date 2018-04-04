@@ -1,0 +1,49 @@
+<template>
+  <require from="../../resources/value-converters/keys"></require>
+
+  <div class="auth-page">
+    <div class="container page">
+      <div class="row">
+
+        <div class="col-md-6 offset-md-3 col-xs-12">
+          <h1 class="text-xs-center">${type === 'login' ? 'Sign in' : 'Register'}</h1>
+
+          <ul class="error-messages" if.bind="controller.errors">
+            <li repeat.for="error of controller.errors">
+              ${error.message}
+            </li>
+          </ul>
+
+          ${errorMsg}
+
+          <ul class="error-messages">
+            <li repeat.for="key of errors | keys">${key}&nbsp;${errors[key]}</li>
+          </ul>
+
+          <form>
+            <fieldset class="form-group">
+              <input class="form-control form-control-lg" type="text" placeholder="Email" value.bind="email & validate">
+            </fieldset>
+            <fieldset class="form-group">
+              <input class="form-control form-control-lg" type="password" placeholder="Password" value.bind="password & validate">
+            </fieldset>
+            <fieldset class="form-group" if.bind="type === 'register'">
+              <input class="form-control form-control-lg" type="password" placeholder="Confirm Password" value.bind="confirmPassword & validate">
+            </fieldset>
+            <fieldset class="form-group" if.bind="type === 'register'">
+                <select class="form-control" value.bind="selectedRoleId">
+                  <option repeat.for="role of roles" model.bind="role.name">
+                      ${role.name}
+                  </option>
+                </select>
+            </fieldset>
+            <button class="btn btn-lg btn-primary pull-xs-right" click.trigger="submit()" disabled.bind="!canSave">
+              ${type === 'login' ? 'Sign In' : 'Register'}
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>

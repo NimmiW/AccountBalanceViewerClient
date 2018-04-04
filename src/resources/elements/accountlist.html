@@ -1,0 +1,27 @@
+<template>
+
+  <div class="article-preview" show.bind="accounts.length === 0">
+    Loading...
+  </div>
+
+  <div class="container" show.bind="accounts.length !== 0">
+      <table id="mytable" class="table table-bordred table-striped">
+                   
+          <thead>
+            <th>Account Name</th>
+            <th>Account Balance</th>
+          </thead>
+          <tbody>
+            
+          <tr repeat.for="account of accounts">
+            <td>${account.accountName}</td>
+            <td>${account.amount}</td>
+          </tr>
+
+        </tbody>
+    
+      </table>
+
+  </div>
+  
+</template>
