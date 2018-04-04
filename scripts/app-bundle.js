@@ -1400,7 +1400,7 @@ define('shared/services/config',['exports'], function (exports) {
     value: true
   });
   var config = exports.config = {
-    api_url: 'http://localhost:53046'
+    api_url: 'https://abvwebapi.azurewebsites.net'
   };
 });
 define('shared/services/jwtservice',['exports'], function (exports) {
