@@ -97,6 +97,68 @@ define('shared/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
+define('components/home/homecomponent',['exports', 'aurelia-framework', 'aurelia-dependency-injection', '../../shared/state/sharedstate', '../../shared/services/accountservice', 'moment'], function (exports, _aureliaFramework, _aureliaDependencyInjection, _sharedstate, _accountservice, _moment) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.AccountComponent = undefined;
+
+  var _moment2 = _interopRequireDefault(_moment);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var AccountComponent = exports.AccountComponent = (_dec = (0, _aureliaDependencyInjection.inject)(_sharedstate.SharedState, _aureliaFramework.BindingEngine, _accountservice.AccountService), _dec(_class = function () {
+    function AccountComponent(sharedState, bindingEngine, accountService) {
+      _classCallCheck(this, AccountComponent);
+
+      this.accounts = [];
+
+      this.sharedState = sharedState;
+      this.bindingEngine = bindingEngine;
+      this.accountService = accountService;
+      this.year = (0, _moment2.default)().year();
+      this.month = (0, _moment2.default)().month();
+    }
+
+    AccountComponent.prototype.attached = function attached() {
+      if (this.sharedState.currentUser.role == 'USER') {
+        this.getBalance(this.year, this.month);
+      }
+    };
+
+    AccountComponent.prototype.getBalance = function getBalance(year, month) {
+      var _this = this;
+
+      if (year && month) {
+        var params = {
+          year: year,
+          month: month
+        };
+
+        this.accountService.getBalance(params).then(function (response) {
+          _this.accounts = response;
+          _this.monthString = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
+        });
+      }
+    };
+
+    return AccountComponent;
+  }()) || _class);
+});
 define('components/auth/authcomponent',['exports', 'aurelia-dependency-injection', 'aurelia-router', 'aurelia-validation', '../../shared/services/userservice', '../../shared/state/sharedstate', '../../shared/services/transactionservice'], function (exports, _aureliaDependencyInjection, _aureliaRouter, _aureliaValidation, _userservice, _sharedstate, _transactionservice) {
   'use strict';
 
@@ -225,68 +287,6 @@ define('components/auth/authcomponent',['exports', 'aurelia-dependency-injection
     }]);
 
     return AuthComponent;
-  }()) || _class);
-});
-define('components/home/homecomponent',['exports', 'aurelia-framework', 'aurelia-dependency-injection', '../../shared/state/sharedstate', '../../shared/services/accountservice', 'moment'], function (exports, _aureliaFramework, _aureliaDependencyInjection, _sharedstate, _accountservice, _moment) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.AccountComponent = undefined;
-
-  var _moment2 = _interopRequireDefault(_moment);
-
-  function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var AccountComponent = exports.AccountComponent = (_dec = (0, _aureliaDependencyInjection.inject)(_sharedstate.SharedState, _aureliaFramework.BindingEngine, _accountservice.AccountService), _dec(_class = function () {
-    function AccountComponent(sharedState, bindingEngine, accountService) {
-      _classCallCheck(this, AccountComponent);
-
-      this.accounts = [];
-
-      this.sharedState = sharedState;
-      this.bindingEngine = bindingEngine;
-      this.accountService = accountService;
-      this.year = (0, _moment2.default)().year();
-      this.month = (0, _moment2.default)().month();
-    }
-
-    AccountComponent.prototype.attached = function attached() {
-      if (this.sharedState.currentUser.role == 'USER') {
-        this.getBalance(this.year, this.month);
-      }
-    };
-
-    AccountComponent.prototype.getBalance = function getBalance(year, month) {
-      var _this = this;
-
-      if (year && month) {
-        var params = {
-          year: year,
-          month: month
-        };
-
-        this.accountService.getBalance(params).then(function (response) {
-          _this.accounts = response;
-          _this.monthString = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
-        });
-      }
-    };
-
-    return AccountComponent;
   }()) || _class);
 });
 define('components/profile/profilearticlecomponent',['exports', 'aurelia-dependency-injection', '../../shared/services/articleservice'], function (exports, _aureliaDependencyInjection, _articleservice) {
@@ -16099,15 +16099,15 @@ module.exports = function(Chart) {
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"./shared/layouts/headerlayout\"></require><require from=\"./shared/layouts/footerlayout\"></require><header-layout router-config.bind=\"router.currentInstruction.config\"></header-layout><router-view></router-view><footer-layout></footer-layout></template>"; });
 define('text!components/auth/authcomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/value-converters/keys\"></require><div class=\"auth-page\"><div class=\"container page\"><div class=\"row\"><div class=\"col-md-6 offset-md-3 col-xs-12\"><h1 class=\"text-xs-center\">${type === 'login' ? 'Sign in' : 'Register'}</h1><ul class=\"error-messages\" if.bind=\"controller.errors\"><li repeat.for=\"error of controller.errors\"> ${error.message} </li></ul> ${errorMsg} <ul class=\"error-messages\"><li repeat.for=\"key of errors | keys\">${key}&nbsp;${errors[key]}</li></ul><form><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Email\" value.bind=\"email & validate\"></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Password\" value.bind=\"password & validate\"></fieldset><fieldset class=\"form-group\" if.bind=\"type === 'register'\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Confirm Password\" value.bind=\"confirmPassword & validate\"></fieldset><fieldset class=\"form-group\" if.bind=\"type === 'register'\"><select class=\"form-control\" value.bind=\"selectedRoleId\"><option repeat.for=\"role of roles\" model.bind=\"role.name\"> ${role.name} </option></select></fieldset><button class=\"btn btn-lg btn-primary pull-xs-right\" click.trigger=\"submit()\" disabled.bind=\"!canSave\"> ${type === 'login' ? 'Sign In' : 'Register'} </button></form></div></div></div></div></template>"; });
+define('text!components/home/homecomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/elements/accountlist\"></require><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Account Balances</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='USER'\">You are not allowed to view this page.</p><p if.bind=\"sharedState.currentUser.role=='USER'\">Account Balance As per Month of ${monthString} ${year}</p></div></div><div class=\"container page\" if.bind=\"sharedState.currentUser.role=='USER'\"><account-list accounts.bind=\"accounts\"></account-list></div></div></template>"; });
 define('text!components/profile/profilearticlecomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/elements/articlelist\"></require><article-list articles.bind=\"articles\" total-pages.bind=\"totalPages\" page-number.bind=\"pageNumber\" current-page.bind=\"currentPage\" set-page-cb.call=\"setPageTo(pageNumber)\"></article-list></template>"; });
 define('text!components/profile/profilecomponent.html', ['module'], function(module) { module.exports = "<template><div class=\"profile-page\"><div class=\"user-info\"><div class=\"container\"><div class=\"row\"><div class=\"col-xs-12 col-md-10 offset-md-1\"><img src.bind=\"profile.image\" class=\"user-img\"><h4>${profile.username}</h4><p>${profile.bio}</p><button class=\"btn btn-sm btn-outline-secondary action-btn\" show.bind=\"!isUser\" click.delegate=\"onToggleFollowing()\"><i class=\"ion-plus-round\"></i> &nbsp; ${profile.following ? 'Unfollow' : 'Follow'} ${profile.username} </button> <a route-href=\"route: settings\" class=\"btn btn-sm btn-outline-secondary action-btn\" show.bind=\"isUser\"><i class=\"ion-gear-a\"></i> Edit Profile Settings</a></div></div></div></div><div class=\"container\"><div class=\"row\"><div class=\"col-xs-12 col-md-10 offset-md-1\"><div class=\"articles-toggle\"><ul class=\"nav nav-pills outline-active\"><li class=\"nav-item\"><a class=\"nav-link ${router.currentInstruction.config.name !== 'profilefavorites' ? 'active' : ''}\" route-href=\"route: profilearticle\">My Posts</a></li><li class=\"nav-item\"><a class=\"nav-link ${router.currentInstruction.config.name === 'profilefavorites' ? 'active' : ''}\" route-href=\"route: profilefavorites\">Favorited Posts</a></li></ul></div><router-view></router-view></div></div></div></div></template>"; });
 define('text!components/profile/profilefavoritescomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/elements/articlelist\"></require><article-list articles.bind=\"articles\" total-pages.bind=\"totalPages\" page-number.bind=\"pageNumber\" current-page.bind=\"currentPage\" set-page-cb.call=\"setPageTo(pageNumber)\"></article-list></template>"; });
-define('text!components/home/homecomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/elements/accountlist\"></require><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Account Balances</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='USER'\">You are not allowed to view this page.</p><p if.bind=\"sharedState.currentUser.role=='USER'\">Account Balance As per Month of ${monthString} ${year}</p></div></div><div class=\"container page\" if.bind=\"sharedState.currentUser.role=='USER'\"><account-list accounts.bind=\"accounts\"></account-list></div></div></template>"; });
 define('text!components/report/reportcomponent.html', ['module'], function(module) { module.exports = "<template><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Yearly Report</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='ADMIN'\">You are not allowed to do actions in this page.</p><p if.bind=\"sharedState.currentUser.role=='ADMIN'\">Select any year you want to view the balance chanage.</p></div></div><div class=\"container page\" if.bind=\"sharedState.currentUser.role=='ADMIN'\"><form><div class=\"form-group\"><label for=\"year\">Enter an the year to generate the report...</label> <input type=\"number\" class=\"form-control\" value.bind=\"year\" placeholder=\"year \" min=\"1900\" max=\"2100\"></div><div class=\"form-group\"><button class=\"btn\" click.delegate=\"getReport()\">Generate Report</button></div></form><div class=\"article-preview\" show.bind=\"!reportdata\">Loading...</div><canvas ref=\"chart\"></canvas></div></div></template>"; });
 define('text!components/settings/settingscomponent.html', ['module'], function(module) { module.exports = "<template><div class=\"settings-page\"><div class=\"container page\"><div class=\"row\"><div class=\"col-md-6 offset-md-3 col-xs-12\"><h1 class=\"text-xs-center\">Your Settings</h1><form><fieldset><fieldset class=\"form-group\"><input class=\"form-control\" type=\"text\" placeholder=\"URL of profile picture\" value.bind=\"sharedState.currentUser.image\"></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Your Name\" value.bind=\"sharedState.currentUser.username\"></fieldset><fieldset class=\"form-group\"><textarea class=\"form-control form-control-lg\" rows=\"8\" placeholder=\"Short bio about you\" value.bind=\"sharedState.currentUser.bio\"></textarea></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Email\" value.bind=\"sharedState.currentUser.email\"></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Password\" value.bind=\"sharedState.currentUser.password\"></fieldset><button class=\"btn btn-lg btn-primary pull-xs-right\" click.delegate=\"update()\">Update Settings</button></fieldset></form><hr><button class=\"btn btn-outline-danger\" click.delegate=\"logout()\">Or click here to logout.</button></div></div></div></div></template>"; });
 define('text!components/updatebalance/updatebalance.html', ['module'], function(module) { module.exports = "<template><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Update Balances</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='ADMIN'\">You are not allowed to do actions in this page.</p><p if.bind=\"sharedState.currentUser.role=='ADMIN'\">Udate balances of the accounts.</p></div></div><div class=\"container page\"><form><div class=\"form-group\"><div><div class=\"row\"><label for=\"year\">Enter an the month and year to generate the report...</label></div><div class=\"row\"><select class=\"col-sm-4\" value.bind=\"month\"><option repeat.for=\"month of months\" model.bind=\"month.id\"> ${month.name} </option></select><div class=\"col-sm-1\"></div><input class=\"col-sm-4\" type=\"number\" value.bind=\"year\" placeholder=\"year \" min=\"1900\" max=\"2100\"><div class=\"col-sm-1\"></div><button class=\"btn\" click.delegate=\"getAll(year, month)\">Get Balances</button></div></div></div></form><div class=\"container\"><table id=\"mytable\" class=\"table table-bordred table-striped\"><thead><th>Account Name</th><th>Account Balance</th><th>Month</th><th>Year</th><th>Updated Time</th></thead><tbody><tr repeat.for=\"transaction of transactions\"><td>${transaction.accountName}</td><td>${transaction.amount}</td><td>${transaction.month}</td><td>${transaction.year}</td><td>${transaction.enteredDateTime}</td><td><button class=\"btn btn-danger btn-xs\" click.delegate=\"deleteTransaction(transaction.transactionId)\">Delete</button></td></tr><tr><td><select class=\"form-control\" value.bind=\"selectedAccountId\"><option repeat.for=\"account of accountList\" model.bind=\"account.Id\"> ${account.AccountDisplayName} </option></select></td><td><input type=\"number\" class=\"form-control\" value.bind=\"newAmount\" placeholder=\"Amount\"></td><td><button class=\"btn btn-success btn-xs\" click.delegate=\"addTransaction()\">Add+</button></td></tr></tbody></table><div class=\"alert alert-success\" if.bind=\"success\">Your file was uploaded <strong>Successfully!</strong></div><div class=\"alert alert-danger\" if.bind=\"fail\">Your file was <strong>failed</strong> uploading.</div><div class=\"alert alert-info\" if.bind=\"emptyFile\">Please brawse a file.</div><div class=\"jumbotron\"><p>Please upload the excel file. *Please reload the page of you encounter any problem.</p><div class=\"form-group\"><label for=\"file\">File:</label> <input type=\"text\" value.bind=\"fileLocation[0].name\" placeholder=\"File location\" disabled=\"disabled\"> <input type=\"file\" files.bind=\"fileLocation\" ref=\"htmlElement\" id=\"fileToUpload\" change.delegate=\"getAsText(fileLocation)\" accept=\".csv\"></div><div><pre id=\"fileDisplayArea\"></pre></div><div class=\"form-group\"></div><button class=\"btn\" click.delegate=\"upload(fileLocation)\">Upload</button></div></div></div></div></template>"; });
-define('text!shared/layouts/footerlayout.html', ['module'], function(module) { module.exports = "<template><footer><div class=\"container\"><a href=\"/\" class=\"logo-font\">Account Balance Viewer</a> <span class=\"attribution\">An interactive project done by ABV.</span></div></footer></template>"; });
-define('text!shared/layouts/headerlayout.html', ['module'], function(module) { module.exports = "<template><nav class=\"navbar navbar-light\"><div class=\"container\"><a class=\"navbar-brand\" route-href=\"route: home\">Account Balance Viewer</a><ul class=\"nav navbar-nav pull-xs-right\"><li class=\"${'nav-item' + (activeRoute === 'home' ? ' active' : '')}\"><a class=\"nav-link\" route-href=\"route: home\">Home</a></li><li class=\"${'nav-item' + (activeRoute === 'updatebalance' ? ' active' : '')}\"><a class=\"nav-link\" route-href=\"route: updatebalance\">Update Balance</a></li><li class=\"${'nav-item' + (activeRoute === 'reports' ? ' active' : '')}\"><a class=\"nav-link\" route-href=\"route: reports\">Generate Reports</a></li><li class=\"${'nav-item' + (activeRoute === 'login' ? ' active' : '')}\" show.bind=\"!sharedState.isAuthenticated\"><a class=\"nav-link\" route-href=\"route: login\">Sign In</a></li><li class=\"${'nav-item' + (activeRoute === 'register' ? ' active' : '')}\" show.bind=\"sharedState.currentUser.role=='ADMIN'\"><a class=\"nav-link\" route-href=\"route: register\">Register New Users</a></li><li class=\"nav-item\" show.bind=\"sharedState.isAuthenticated\"><a class=\"nav-link\" click.delegate=\"logout()\">${sharedState.currentUser.userName} Sign Out</a></li></ul></div></nav></template>"; });
 define('text!resources/elements/accountlist.html', ['module'], function(module) { module.exports = "<template><div class=\"article-preview\" show.bind=\"accounts.length === 0\">Loading...</div><div class=\"container\" show.bind=\"accounts.length !== 0\"><table id=\"mytable\" class=\"table table-bordred table-striped\"><thead><th>Account Name</th><th>Account Balance</th></thead><tbody><tr repeat.for=\"account of accounts\"><td>${account.accountName}</td><td>${account.amount}</td></tr></tbody></table></div></template>"; });
 define('text!resources/elements/accountpreview.html', ['module'], function(module) { module.exports = "<template><div class=\"card\" style=\"padding:1rem;width:18rem\"><div class=\"card-body\"><h5 class=\"card-title\">${account.accountName}</h5><h6 class=\"card-subtitle mb-2 text-muted\">${account.amount}</h6></div></div></template>"; });
+define('text!shared/layouts/footerlayout.html', ['module'], function(module) { module.exports = "<template><footer><div class=\"container\"><a href=\"/\" class=\"logo-font\">Account Balance Viewer</a> <span class=\"attribution\">An interactive project done by ABV.</span></div></footer></template>"; });
+define('text!shared/layouts/headerlayout.html', ['module'], function(module) { module.exports = "<template><nav class=\"navbar navbar-light\"><div class=\"container\"><a class=\"navbar-brand\" route-href=\"route: home\">Account Balance Viewer</a><ul class=\"nav navbar-nav pull-xs-right\"><li class=\"${'nav-item' + (activeRoute === 'home' ? ' active' : '')}\"><a class=\"nav-link\" route-href=\"route: home\">Home</a></li><li class=\"${'nav-item' + (activeRoute === 'updatebalance' ? ' active' : '')}\"><a class=\"nav-link\" route-href=\"route: updatebalance\">Update Balance</a></li><li class=\"${'nav-item' + (activeRoute === 'reports' ? ' active' : '')}\"><a class=\"nav-link\" route-href=\"route: reports\">Generate Reports</a></li><li class=\"${'nav-item' + (activeRoute === 'login' ? ' active' : '')}\" show.bind=\"!sharedState.isAuthenticated\"><a class=\"nav-link\" route-href=\"route: login\">Sign In</a></li><li class=\"${'nav-item' + (activeRoute === 'register' ? ' active' : '')}\" show.bind=\"sharedState.currentUser.role=='ADMIN'\"><a class=\"nav-link\" route-href=\"route: register\">Register New Users</a></li><li class=\"nav-item\" show.bind=\"sharedState.isAuthenticated\"><a class=\"nav-link\" click.delegate=\"logout()\">${sharedState.currentUser.userName} Sign Out</a></li></ul></div></nav></template>"; });
 //# sourceMappingURL=app-bundle.js.map
