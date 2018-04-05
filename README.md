@@ -108,6 +108,10 @@ Should contain,
 
 Should be minimum size of 6 charactors
 
+**Azure Paas I used:**
+- app service (with github CI support)
+- resource group
+- app service plan
 
 ## The Backend API for this could be found at:
 https://github.com/NimmiW/AccountBalanceViewer
