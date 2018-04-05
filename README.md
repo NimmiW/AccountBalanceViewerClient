@@ -89,6 +89,8 @@ https://github.com/NimmiW/aurelia-realworld-example-app
 ## Web Client are hosted at:
 http://abvwebclient.azurewebsites.net
 
+It was made to Continuous integration. Once you commit and push, it automatically deployed to the app-service. An SQL server was used to keep data. 
+
 **ADMIN user credentials**
 - email :admin@gmail.com 
 - password: Admin@123
