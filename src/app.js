@@ -5,25 +5,25 @@ import {UserService} from './shared/services/userservice';
 export class App {
   
   constructor(userService) {
-    this.message = 'Hello World!'; // just for unit testing ;)
     this.userService = userService;
   }
   
   configureRouter(config, router) {
-    config.title = 'Conduit';
+    config.title = 'Account Balance Viewer';
     config.map([
-      //{route: ['', 'home'], moduleId: 'components/home/homecomponent', name: 'home', title: 'Home'},
-      {route: ['login'], moduleId: 'components/auth/authcomponent', name: 'login', title: 'Sign in'},
-      {route: ['register'], moduleId: 'components/auth/authcomponent', name:'register', title: 'Sign up'},
       {route: ['', 'home'], moduleId: 'components/home/homecomponent', name:'home', title: 'home'},
-      {route: ['updatebalance'], moduleId: 'components/updatebalance/updatebalance', name:'updatebalance', title: 'updatebalance'},
+      {route: ['login'], moduleId: 'components/auth/authcomponent', name: 'login', title: 'Sign in'},
+      {route: ['register'], moduleId: 'components/auth/authcomponent', name:'register', title: 'Register'},
+      {route: ['updatebalance'], moduleId: 'components/updatebalance/updatebalancecomponent', name:'updatebalance', title: 'updatebalance'},
       {route: ['reports'], moduleId: 'components/report/reportcomponent', name:'reports', title: 'reports'}
     ]);
+
+    config.mapUnknownRoutes('components/home/homecomponent');
     
     this.router = router;
   }
   
   attached() {
-    //this.userService.populate();
+    
   }
 }
