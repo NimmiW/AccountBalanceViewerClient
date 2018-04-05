@@ -63,12 +63,12 @@ export class ReportComponent {
 
   attached() {
     if(this.sharedState.currentUser.role=='ADMIN'){
-      this.getReport();
+      this.getReport(true);
     }
     
   }
   
-  getReport() {
+  getReport(isInitialLoading) {
     this.reportdata = null
 
     let params = {
@@ -134,8 +134,13 @@ export class ReportComponent {
           data: this.lineData,
           options: this.lineOptions,
         });
+        if(!isInitialLoading) {
+          this.success = "The chart was generated successfully";
+          this.fail = null;
+        }
       },err => {
-        console.log(err)
+        this.success = null;
+        this.fail = "Error occured wgile generating the chart";
       });
   }
 

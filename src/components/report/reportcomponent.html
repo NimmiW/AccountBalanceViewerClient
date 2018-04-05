@@ -10,15 +10,24 @@
         <p if.bind="sharedState.currentUser.role=='ADMIN'">Select any year you want to view the balance chanage.</p>
       </div>
     </div>
-  
+
     <div class="container page" if.bind="sharedState.currentUser.role=='ADMIN'">
+      <div class="alert alert-danger" if.bind="failLoading">
+        ${failLoading}
+      </div>
+      <div class="alert alert-success" if.bind="success">
+        ${success}
+      </div>
+      <div class="alert alert-danger" if.bind="fail">
+        ${fail}
+      </div>
       <form>
         <div class="form-group">
           <label for="year">Enter an the year to generate the report...</label>
           <input type="number" class="form-control" value.bind="year" placeholder="year " min="1900" max="2100">
         </div>
         <div class="form-group">
-            <button class="btn" click.delegate="getReport()">Generate Report</button>
+          <button class="btn" click.delegate="getReport()">Generate Report</button>
         </div>
       </form>
 
@@ -26,7 +35,7 @@
       <div class="article-preview" show.bind="!reportdata">
         Loading...
       </div>
-      <canvas ref="chart" ></canvas>
+      <canvas ref="chart"></canvas>
     </div>
   </div>
 </template>
