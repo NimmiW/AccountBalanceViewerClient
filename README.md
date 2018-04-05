@@ -70,7 +70,7 @@ For USER,
 - view the current month balances of each account (Home page)
 
 
-**The general page breakdown looks like this:**
+## The general page breakdown looks like this:
 
 - Home page (URL: /#/ )
     - List of the balances of current monthcould be viewed.
@@ -83,23 +83,23 @@ For USER,
 
 
 
-**My Web Client Repo:**
+## My Web Client Repo:
 https://github.com/NimmiW/aurelia-realworld-example-app
 
-**Web Client are hosted at:**
+## Web Client are hosted at:
 http://abvwebclient.azurewebsites.net
 
-**ADMIN user credentials**
+## ADMIN user credentials
 - email :admin@gmail.com 
 = password: Admin@123
 
-**The Backend API for this could be found at:**
+## The Backend API for this could be found at:
 https://github.com/NimmiW/AccountBalanceViewer
 
-**The Backend API is hosted at:**
+## The Backend API is hosted at:
 https://abvwebapi.azurewebsites.net/
 
-**Complemeted Level**
+## Complemeted Level
 About 85 percent of the workload of the assignment was completed.
 
 **ToDos**
