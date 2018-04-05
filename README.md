@@ -120,12 +120,6 @@ https://github.com/NimmiW/AccountBalanceViewer
 ## The Backend API is hosted at:
 https://abvwebapi.azurewebsites.net/
 
-## Complemeted Level
-About 85 percent of the workload of the assignment was completed.
-
-**ToDos**
-- Unit Testing Testing (both web client and backend)
-
 **References**
 - https://github.com/jadhavajay/aurelia-realworld-example-app
 - https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model
