@@ -78,6 +78,15 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
+define('shared/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
+});
 define('resources/index',['exports'], function (exports) {
   'use strict';
 
@@ -88,15 +97,6 @@ define('resources/index',['exports'], function (exports) {
   function configure(config) {
     config.globalResources(['./value-converters/date']);
   }
-});
-define('shared/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
 });
 define('components/auth/authcomponent',['exports', 'aurelia-dependency-injection', 'aurelia-router', 'aurelia-validation', '../../shared/services/userservice', '../../shared/state/sharedstate', '../../shared/services/transactionservice'], function (exports, _aureliaDependencyInjection, _aureliaRouter, _aureliaValidation, _userservice, _sharedstate, _transactionservice) {
   'use strict';
@@ -661,226 +661,6 @@ define('components/updatebalance/updatebalancecomponent',['exports', 'aurelia-de
     return UpdateBalance;
   }()) || _class);
 });
-define('resources/elements/accountlist',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.AccountList = undefined;
-
-  function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-      enumerable: descriptor.enumerable,
-      configurable: descriptor.configurable,
-      writable: descriptor.writable,
-      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-  }
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-      desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-      desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-      return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-      desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-      Object['define' + 'Property'](target, property, desc);
-      desc = null;
-    }
-
-    return desc;
-  }
-
-  function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-  }
-
-  var _desc, _value, _class, _descriptor;
-
-  var AccountList = exports.AccountList = (_class = function AccountList() {
-    _classCallCheck(this, AccountList);
-
-    _initDefineProp(this, 'accounts', _descriptor, this);
-  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'accounts', [_aureliaFramework.bindable], {
-    enumerable: true,
-    initializer: null
-  })), _class);
-});
-define('resources/elements/accountpreview',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.AccountPreview = undefined;
-
-  function _initDefineProp(target, property, descriptor, context) {
-    if (!descriptor) return;
-    Object.defineProperty(target, property, {
-      enumerable: descriptor.enumerable,
-      configurable: descriptor.configurable,
-      writable: descriptor.writable,
-      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-    });
-  }
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-      desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-      desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-      return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-      desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-      Object['define' + 'Property'](target, property, desc);
-      desc = null;
-    }
-
-    return desc;
-  }
-
-  function _initializerWarningHelper(descriptor, context) {
-    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-  }
-
-  var _desc, _value, _class, _descriptor;
-
-  var AccountPreview = exports.AccountPreview = (_class = function AccountPreview() {
-    _classCallCheck(this, AccountPreview);
-
-    _initDefineProp(this, 'account', _descriptor, this);
-  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'account', [_aureliaFramework.bindable], {
-    enumerable: true,
-    initializer: null
-  })), _class);
-});
-define('resources/value-converters/date',['exports', 'moment'], function (exports, _moment) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.DateValueConverter = undefined;
-
-  var _moment2 = _interopRequireDefault(_moment);
-
-  function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var DateValueConverter = exports.DateValueConverter = function () {
-    function DateValueConverter() {
-      _classCallCheck(this, DateValueConverter);
-    }
-
-    DateValueConverter.prototype.toView = function toView(value) {
-      return (0, _moment2.default)(value).format('MMMM D, YYYY');
-    };
-
-    return DateValueConverter;
-  }();
-});
-define('resources/value-converters/formathtml',['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var FormatHtmlValueConverter = exports.FormatHtmlValueConverter = function () {
-    function FormatHtmlValueConverter() {
-      _classCallCheck(this, FormatHtmlValueConverter);
-    }
-
-    FormatHtmlValueConverter.prototype.toView = function toView(value) {
-      return value.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    };
-
-    return FormatHtmlValueConverter;
-  }();
-});
-define('resources/value-converters/keys',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var KeysValueConverter = exports.KeysValueConverter = function () {
-    function KeysValueConverter() {
-      _classCallCheck(this, KeysValueConverter);
-    }
-
-    KeysValueConverter.prototype.toView = function toView(value) {
-      if (value) return Reflect.ownKeys(value);
-    };
-
-    return KeysValueConverter;
-  }();
-});
 define('shared/layouts/footerlayout',["exports"], function (exports) {
   "use strict";
 
@@ -1224,7 +1004,7 @@ define('shared/services/config',['exports'], function (exports) {
     value: true
   });
   var config = exports.config = {
-    api_url: 'http://localhost:53046'
+    api_url: 'https://abvwebapi.azurewebsites.net'
   };
 });
 define('shared/services/jwtservice',['exports'], function (exports) {
@@ -1499,6 +1279,226 @@ define('shared/state/sharedstate',['exports', '../models/user'], function (expor
     this.currentUser = new _user.User();
     this.isAuthenticated = false;
   };
+});
+define('resources/elements/accountlist',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.AccountList = undefined;
+
+  function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+      enumerable: descriptor.enumerable,
+      configurable: descriptor.configurable,
+      writable: descriptor.writable,
+      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+      desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+      desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+      return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+      desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+      Object['define' + 'Property'](target, property, desc);
+      desc = null;
+    }
+
+    return desc;
+  }
+
+  function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+  }
+
+  var _desc, _value, _class, _descriptor;
+
+  var AccountList = exports.AccountList = (_class = function AccountList() {
+    _classCallCheck(this, AccountList);
+
+    _initDefineProp(this, 'accounts', _descriptor, this);
+  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'accounts', [_aureliaFramework.bindable], {
+    enumerable: true,
+    initializer: null
+  })), _class);
+});
+define('resources/elements/accountpreview',['exports', 'aurelia-framework'], function (exports, _aureliaFramework) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.AccountPreview = undefined;
+
+  function _initDefineProp(target, property, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property, {
+      enumerable: descriptor.enumerable,
+      configurable: descriptor.configurable,
+      writable: descriptor.writable,
+      value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+      desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+      desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+      return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+      desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+      desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+      Object['define' + 'Property'](target, property, desc);
+      desc = null;
+    }
+
+    return desc;
+  }
+
+  function _initializerWarningHelper(descriptor, context) {
+    throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+  }
+
+  var _desc, _value, _class, _descriptor;
+
+  var AccountPreview = exports.AccountPreview = (_class = function AccountPreview() {
+    _classCallCheck(this, AccountPreview);
+
+    _initDefineProp(this, 'account', _descriptor, this);
+  }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'account', [_aureliaFramework.bindable], {
+    enumerable: true,
+    initializer: null
+  })), _class);
+});
+define('resources/value-converters/date',['exports', 'moment'], function (exports, _moment) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.DateValueConverter = undefined;
+
+  var _moment2 = _interopRequireDefault(_moment);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var DateValueConverter = exports.DateValueConverter = function () {
+    function DateValueConverter() {
+      _classCallCheck(this, DateValueConverter);
+    }
+
+    DateValueConverter.prototype.toView = function toView(value) {
+      return (0, _moment2.default)(value).format('MMMM D, YYYY');
+    };
+
+    return DateValueConverter;
+  }();
+});
+define('resources/value-converters/formathtml',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var FormatHtmlValueConverter = exports.FormatHtmlValueConverter = function () {
+    function FormatHtmlValueConverter() {
+      _classCallCheck(this, FormatHtmlValueConverter);
+    }
+
+    FormatHtmlValueConverter.prototype.toView = function toView(value) {
+      return value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    };
+
+    return FormatHtmlValueConverter;
+  }();
+});
+define('resources/value-converters/keys',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var KeysValueConverter = exports.KeysValueConverter = function () {
+    function KeysValueConverter() {
+      _classCallCheck(this, KeysValueConverter);
+    }
+
+    KeysValueConverter.prototype.toView = function toView(value) {
+      if (value) return Reflect.ownKeys(value);
+    };
+
+    return KeysValueConverter;
+  }();
 });
 /*!
  * Chart.js
