@@ -89,9 +89,22 @@ https://github.com/NimmiW/aurelia-realworld-example-app
 ## Web Client are hosted at:
 http://abvwebclient.azurewebsites.net
 
-## ADMIN user credentials
+**ADMIN user credentials**
 - email :admin@gmail.com 
-= password: Admin@123
+- password: Admin@123
+
+**general USER user credentials**
+- email :user@gmail.com 
+- password: User@123
+
+**Password Policy**
+Should contain,
+- atleast non-alphanumeric character
+- atleast one digit
+- atleast one UpperCase charactor
+
+Should be minimum size of 6 charactors
+
 
 ## The Backend API for this could be found at:
 https://github.com/NimmiW/AccountBalanceViewer
