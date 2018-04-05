@@ -14,7 +14,7 @@ Make sure you have [Node](https://nodejs.org/) and [Yarn](https://yarnpkg.com/) 
 
 Clone the project
 
-`git clone https://github.com/NimmiW/aurelia-realworld-example-app.git`
+`git clone https://github.com/NimmiW/AccountBalanceViewerClient.git`
 
 Then run 
 ```
@@ -46,54 +46,65 @@ Run `au build` to build the project. The build artifacts will be stored in the `
 
 ## Functionality overview
 
-Account balances are updated every month in the Jondell Corp and the CFO Dr. Sundt likes to
-have a close look at the overview. Since Dr. Sundt has no experience in software development,
-he would like to hire you to do his dirty laundry. So your job is to create a simple web enabled
-account balance overview tool. There are 5 accounts in Jondell Corp and they are
+Account balances are updated every month in the Jondell Corp and the CFO Dr. Sundt likes to have a close look at the overview. Since Dr. Sundt has no experience in software development, he would like to hire you to do his dirty laundry. So your job is to create a simple web enabled
+account balance overview tool. There are 5 accounts in Jondell Corp and they are;
 - R&D
 - Canteen
 - CEO’s car expenses
 - Marketing
 - Parking fines
 
+There are two 2 types of users also.
+- ADMIN
+- USER
+
+The roles of the two users are as follows.
+
+For ADMIN,
+- upload balances (updatebalance page)
+- Delete and re-enter balances (updatebalance page)
+- view the report page (report)
+
+For USER,
+- view the current month balances of each account (Home page)
 
 
 **The general page breakdown looks like this:**
 
 - Home page (URL: /#/ )
-    - List of th balances of this month
+    - List of the balances of current monthcould be viewed.
 
 - updatebalance page
-    - The Balances of this month could be updated
+    - The Balances of any month could be updated.
 
-- reports page
-    - report could be generated given the month and the year
+- report page
+    - Report could be generated given the month and the year.
 
-**Note**
-I have forked from  https://github.com/jadhavajay/aurelia-realworld-example-app repo and developed this for the required specification by the Adra development test assignment.
 
-**My Repo:**
+
+**My Web Client Repo:**
 https://github.com/NimmiW/aurelia-realworld-example-app
 
-**Scripts are hosted at:**
+**Web Client are hosted at:**
 http://abvwebclient.azurewebsites.net
 
-**Script repo at**
-https://github.com/NimmiW/AccountBalanceViewerClientScripts
-
 **The Backend API for this could be found at:**
-https://github.com/NimmiW/ABVWebApi
+https://github.com/NimmiW/AccountBalanceViewer
 
 **The Backend API is hosted at:**
 https://abvwebapi.azurewebsites.net/
 
-
 **Complemeted Level**
-About 60 percent of the workload of the assignment was completed.
+About 85 percent of the workload of the assignment was completed.
 
 **ToDos**
-- Host Aurelia app in an azure app service
-- Excel Sheet update part
-- Unit Testing Testing
+- Unit Testing Testing (both web client and backend)
+
+**References**
+https://github.com/jadhavajay/aurelia-realworld-example-app
+https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model
+https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations#entity-framework-core-nuget-packages-for-migrations]
+https://codepen.io/matt-west/pen/KjEHg
+http://blog.teamtreehouse.com/reading-files-using-the-html5-filereader-api
 
 <br />
