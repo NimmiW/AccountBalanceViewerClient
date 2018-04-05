@@ -8,11 +8,14 @@
         <h1 class="logo-font">Account Balances</h1>
         <p if.bind="!sharedState.isAuthenticated">Please Sign with your credentials to view to the Account blances of this month</p>
         <p if.bind="sharedState.currentUser.role!='USER'">You are not allowed to view this page.</p>
-        <p if.bind="sharedState.currentUser.role=='USER'" >Account Balance As per Month of ${monthString} ${year}</p>
+        <p if.bind="sharedState.currentUser.role=='USER'">Account Balance As per Month of ${monthString} ${year}</p>
       </div>
     </div>
 
     <div class="container page" if.bind="sharedState.currentUser.role=='USER'">
+      <div class="alert alert-danger" if.bind="fail">
+        ${fail}
+      </div>
       <account-list accounts.bind="accounts"></account-list>
     </div>
   </div>

@@ -35,7 +35,7 @@ export class AccountComponent {
           this.accounts = response;
           this.monthString =  moment(month+1, 'MM').format('MMMM');
         },err => {
-          console.log(err)
+          this.fail = "The account balance failed Loading.";
         })
     }
     

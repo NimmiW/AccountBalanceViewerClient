@@ -52,7 +52,7 @@ export class UserService {
       .then(user => {
         if (user.access_token) {
           this.setAuth(user);
-          this.getUserInfo()
+          return this.getUserInfo()
             .then(info => {
               if (info.Role) {
                 user.role = info.Role
@@ -62,6 +62,7 @@ export class UserService {
               } else {
                 this.purgeAuth();
                 return "User login failed.";
+                
               }
             },err => {
               this.purgeAuth();

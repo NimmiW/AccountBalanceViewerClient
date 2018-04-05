@@ -12,9 +12,6 @@
     </div>
 
     <div class="container page" if.bind="sharedState.currentUser.role=='ADMIN'">
-      <div class="alert alert-danger" if.bind="failLoading">
-        ${failLoading}
-      </div>
       <div class="alert alert-success" if.bind="success">
         ${success}
       </div>

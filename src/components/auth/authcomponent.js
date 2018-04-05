@@ -68,7 +68,6 @@ export class AuthComponent {
       };
       this.userService.attemptAuth(credentials)
       .then(response => {
-        console.log(response)
         if(response=='User logged in successfully.') {
           this.failLogin = null;
         } else {
@@ -82,7 +81,6 @@ export class AuthComponent {
         Email: this.email,
         Password: this.password,
         ConfirmPassword: this.confirmPassword,
-        //Role : this.selectedRoleId
       };
 
       const role = {
@@ -92,22 +90,29 @@ export class AuthComponent {
 
       this.userService.register(credentials)
       .then(response => {
+        console.log(response)
         if(response == "User registration was successful."){
-          this.userService.addRole(role)
+          return this.userService.addRole(role)
           .then(response => {
             if(response == "User role was added successful."){
-              
-              this.router.navigateToRoute('home');
+              this.successRegister = "The user was registered successfully";
+              this.failRegister = null;
             } else {
-              this.errorMsg = response;
-
+              this.successRegister = null;
+              this.failRegister = "An Error occued while registering the role to the user";
             }
+          },err => {
+            this.successRegister = null;
+            this.failRegister = "An Error occued while registering the user";
           });
 
         } else {
-          this.errorMsg = response;
-
+          this.successRegister = null;
+          this.failRegister = "An Error occued while registering the user";
         }
+      },err => {
+        this.successRegister = null;
+        this.failRegister = "An Error occued while registering the user";
       });
 
     }
