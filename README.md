@@ -85,7 +85,7 @@ For USER,
 
 
 ## My Web Client Repo:
-https://github.com/NimmiW/aurelia-realworld-example-app
+https://github.com/NimmiW/AccountBalanceViewerClient
 
 ## Web Client are hosted at:
 http://abvwebclient.azurewebsites.net
