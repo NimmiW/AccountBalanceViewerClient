@@ -98,6 +98,7 @@ http://abvwebclient.azurewebsites.net
 - password: User@123
 
 **Password Policy**
+<br/>
 Should contain,
 - atleast non-alphanumeric character
 - atleast one digit
