@@ -90,7 +90,6 @@ export class AuthComponent {
 
       this.userService.register(credentials)
       .then(response => {
-        console.log(response)
         if(response == "User registration was successful."){
           return this.userService.addRole(role)
           .then(response => {

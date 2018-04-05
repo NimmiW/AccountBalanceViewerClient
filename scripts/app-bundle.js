@@ -203,7 +203,6 @@ define('components/auth/authcomponent',['exports', 'aurelia-dependency-injection
         };
 
         this.userService.register(_credentials).then(function (response) {
-          console.log(response);
           if (response == "User registration was successful.") {
             return _this.userService.addRole(role).then(function (response) {
               if (response == "User role was added successful.") {
