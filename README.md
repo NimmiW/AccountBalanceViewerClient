@@ -64,6 +64,7 @@ For ADMIN,
 - upload balances (updatebalance page)
 - Delete and re-enter balances (updatebalance page)
 - view the report page (report)
+- Register new user
 
 For USER,
 - view the current month balances of each account (Home page)
@@ -88,6 +89,10 @@ https://github.com/NimmiW/aurelia-realworld-example-app
 **Web Client are hosted at:**
 http://abvwebclient.azurewebsites.net
 
+**ADMIN user credentials**
+- email :admin@gmail.com 
+= password: Admin@123
+
 **The Backend API for this could be found at:**
 https://github.com/NimmiW/AccountBalanceViewer
 
@@ -101,10 +106,10 @@ About 85 percent of the workload of the assignment was completed.
 - Unit Testing Testing (both web client and backend)
 
 **References**
-https://github.com/jadhavajay/aurelia-realworld-example-app
-https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model
-https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations#entity-framework-core-nuget-packages-for-migrations]
-https://codepen.io/matt-west/pen/KjEHg
+- https://github.com/jadhavajay/aurelia-realworld-example-app
+- https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/adding-model
+- https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations#entity-framework-core-nuget-packages-for-migrations]
+- https://codepen.io/matt-west/pen/KjEHg
 http://blog.teamtreehouse.com/reading-files-using-the-html5-filereader-api
 
 <br />
