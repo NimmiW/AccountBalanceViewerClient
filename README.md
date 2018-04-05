@@ -63,6 +63,7 @@ The roles of the two users are as follows.
 For ADMIN,
 - upload balances (updatebalance page)
 - Delete and re-enter balances (updatebalance page)
+- re-enter balances using .csv files (a sample file is available at https://github.com/NimmiW/AccountBalanceViewerClient/blob/master/data_sample.csv )
 - view the report page (report)
 - Register new user
 
