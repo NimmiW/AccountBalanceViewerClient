@@ -12,6 +12,16 @@
     </div>
 
     <div class="container page" if.bind="sharedState.currentUser.role=='ADMIN'">
+      <div class="alert alert-danger" if.bind="failLoading">
+        ${failLoading}
+      </div>
+      <div class="alert alert-success" if.bind="success">
+        ${success}
+      </div>
+      <div class="alert alert-danger" if.bind="fail">
+        ${fail}
+      </div>
+
       <form>
 
         <div class="form-group">
@@ -32,7 +42,7 @@
 
               <input class ="col-sm-4" type="number" value.bind="year" placeholder="year " min="1900" max="2100">
               <div class="col-sm-1"></div>
-              <button class="btn" click.delegate="getAll(year, month)">Get Balances</button>
+              <button class="btn" click.delegate="getAllBtn(year, month)">Get Balances</button>
 
             </div>
 
@@ -84,17 +94,6 @@
 
         </table>
 
-        <div class="alert alert-success" if.bind="success">
-          Your file was uploaded
-          <strong>Successfully!</strong>
-        </div>
-        <div class="alert alert-danger" if.bind="fail">
-          Your file was
-          <strong>failed</strong> uploading.
-        </div>
-        <div class="alert alert-info" if.bind="emptyFile">
-          Please brawse a file.
-        </div>
         <div class="jumbotron">
           <p>Please upload the excel file. *Please reload the page of you encounter any problem.</p>
                     
@@ -108,7 +107,7 @@
             <pre id="fileDisplayArea"></pre>
           </div>
           <div class="form-group"></div>
-          <button class="btn" click.delegate="upload(fileLocation)">Upload</button>
+          <button class="btn btn-success" click.delegate="upload(fileLocation)">Upload</button>
         </div>
       </div>
     </div>

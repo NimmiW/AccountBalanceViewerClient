@@ -34,6 +34,8 @@ export class AccountComponent {
         .then(response => {
           this.accounts = response;
           this.monthString =  moment(month+1, 'MM').format('MMMM');
+        },err => {
+          console.log(err)
         })
     }
     

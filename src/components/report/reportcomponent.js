@@ -134,7 +134,9 @@ export class ReportComponent {
           data: this.lineData,
           options: this.lineOptions,
         });
-      })
+      },err => {
+        console.log(err)
+      });
   }
 
 }

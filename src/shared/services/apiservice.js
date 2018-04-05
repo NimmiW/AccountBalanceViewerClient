@@ -70,11 +70,9 @@ export class ApiService {
     })
       .then(data => {
         data = data.json()
-        return data
-      })
-      .catch(error => {
-        return "no token error"
-
+        return data;
+      },err => {
+        return err;
       });
 
   }

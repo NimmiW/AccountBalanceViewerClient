@@ -24,7 +24,7 @@ define('app',['exports', 'aurelia-dependency-injection', './shared/services/user
 
     App.prototype.configureRouter = function configureRouter(config, router) {
       config.title = 'Conduit';
-      config.map([{ route: ['login'], moduleId: 'components/auth/authcomponent', name: 'login', title: 'Sign in' }, { route: ['register'], moduleId: 'components/auth/authcomponent', name: 'register', title: 'Sign up' }, { route: ['settings'], moduleId: 'components/settings/settingscomponent', name: 'settings', title: 'Settings' }, { route: [':name'], moduleId: 'components/profile/profilecomponent', name: 'profile', title: 'Profile' }, { route: ['', 'home'], moduleId: 'components/home/homecomponent', name: 'home', title: 'home' }, { route: ['updatebalance'], moduleId: 'components/updatebalance/updatebalance', name: 'updatebalance', title: 'updatebalance' }, { route: ['reports'], moduleId: 'components/report/reportcomponent', name: 'reports', title: 'reports' }]);
+      config.map([{ route: ['login'], moduleId: 'components/auth/authcomponent', name: 'login', title: 'Sign in' }, { route: ['register'], moduleId: 'components/auth/authcomponent', name: 'register', title: 'Sign up' }, { route: ['', 'home'], moduleId: 'components/home/homecomponent', name: 'home', title: 'home' }, { route: ['updatebalance'], moduleId: 'components/updatebalance/updatebalance', name: 'updatebalance', title: 'updatebalance' }, { route: ['reports'], moduleId: 'components/report/reportcomponent', name: 'reports', title: 'reports' }]);
 
       this.router = router;
     };
@@ -96,68 +96,6 @@ define('shared/index',["exports"], function (exports) {
   });
   exports.configure = configure;
   function configure(config) {}
-});
-define('components/home/homecomponent',['exports', 'aurelia-framework', 'aurelia-dependency-injection', '../../shared/state/sharedstate', '../../shared/services/accountservice', 'moment'], function (exports, _aureliaFramework, _aureliaDependencyInjection, _sharedstate, _accountservice, _moment) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.AccountComponent = undefined;
-
-  var _moment2 = _interopRequireDefault(_moment);
-
-  function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _dec, _class;
-
-  var AccountComponent = exports.AccountComponent = (_dec = (0, _aureliaDependencyInjection.inject)(_sharedstate.SharedState, _aureliaFramework.BindingEngine, _accountservice.AccountService), _dec(_class = function () {
-    function AccountComponent(sharedState, bindingEngine, accountService) {
-      _classCallCheck(this, AccountComponent);
-
-      this.accounts = [];
-
-      this.sharedState = sharedState;
-      this.bindingEngine = bindingEngine;
-      this.accountService = accountService;
-      this.year = (0, _moment2.default)().year();
-      this.month = (0, _moment2.default)().month();
-    }
-
-    AccountComponent.prototype.attached = function attached() {
-      if (this.sharedState.currentUser.role == 'USER') {
-        this.getBalance(this.year, this.month);
-      }
-    };
-
-    AccountComponent.prototype.getBalance = function getBalance(year, month) {
-      var _this = this;
-
-      if (year && month) {
-        var params = {
-          year: year,
-          month: month
-        };
-
-        this.accountService.getBalance(params).then(function (response) {
-          _this.accounts = response;
-          _this.monthString = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
-        });
-      }
-    };
-
-    return AccountComponent;
-  }()) || _class);
 });
 define('components/auth/authcomponent',['exports', 'aurelia-dependency-injection', 'aurelia-router', 'aurelia-validation', '../../shared/services/userservice', '../../shared/state/sharedstate', '../../shared/services/transactionservice'], function (exports, _aureliaDependencyInjection, _aureliaRouter, _aureliaValidation, _userservice, _sharedstate, _transactionservice) {
   'use strict';
@@ -244,7 +182,14 @@ define('components/auth/authcomponent',['exports', 'aurelia-dependency-injection
           grant_type: "password"
         };
         this.userService.attemptAuth(credentials).then(function (response) {
-          _this.errorMsg = response;
+          console.log(response);
+          if (response == 'User logged in successfully.') {
+            _this.failLogin = null;
+          } else {
+            _this.failLogin = 'Sorry, an error occured in during login.';
+          }
+        }, function (err) {
+          _this.failLogin = 'Sorry, an error occured in during login.';
         });
       } else {
         var _credentials = {
@@ -287,6 +232,70 @@ define('components/auth/authcomponent',['exports', 'aurelia-dependency-injection
     }]);
 
     return AuthComponent;
+  }()) || _class);
+});
+define('components/home/homecomponent',['exports', 'aurelia-framework', 'aurelia-dependency-injection', '../../shared/state/sharedstate', '../../shared/services/accountservice', 'moment'], function (exports, _aureliaFramework, _aureliaDependencyInjection, _sharedstate, _accountservice, _moment) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.AccountComponent = undefined;
+
+  var _moment2 = _interopRequireDefault(_moment);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var AccountComponent = exports.AccountComponent = (_dec = (0, _aureliaDependencyInjection.inject)(_sharedstate.SharedState, _aureliaFramework.BindingEngine, _accountservice.AccountService), _dec(_class = function () {
+    function AccountComponent(sharedState, bindingEngine, accountService) {
+      _classCallCheck(this, AccountComponent);
+
+      this.accounts = [];
+
+      this.sharedState = sharedState;
+      this.bindingEngine = bindingEngine;
+      this.accountService = accountService;
+      this.year = (0, _moment2.default)().year();
+      this.month = (0, _moment2.default)().month();
+    }
+
+    AccountComponent.prototype.attached = function attached() {
+      if (this.sharedState.currentUser.role == 'USER') {
+        this.getBalance(this.year, this.month);
+      }
+    };
+
+    AccountComponent.prototype.getBalance = function getBalance(year, month) {
+      var _this = this;
+
+      if (year && month) {
+        var params = {
+          year: year,
+          month: month
+        };
+
+        this.accountService.getBalance(params).then(function (response) {
+          _this.accounts = response;
+          _this.monthString = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
+        }, function (err) {
+          console.log(err);
+        });
+      }
+    };
+
+    return AccountComponent;
   }()) || _class);
 });
 define('components/profile/profilearticlecomponent',['exports', 'aurelia-dependency-injection', '../../shared/services/articleservice'], function (exports, _aureliaDependencyInjection, _articleservice) {
@@ -623,6 +632,8 @@ define('components/report/reportcomponent',['exports', 'aurelia-framework', 'aur
           data: _this.lineData,
           options: _this.lineOptions
         });
+      }, function (err) {
+        console.log(err);
       });
     };
 
@@ -720,7 +731,13 @@ define('components/updatebalance/updatebalance',['exports', 'aurelia-dependency-
 
       this.accountService.getAllAccounts().then(function (response) {
         _this.accountList = response;
-      });
+      }, function (err) {});
+    };
+
+    UpdateBalance.prototype.getAllBtn = function getAllBtn(year, month) {
+      this.fail = null;
+      this.success = null;
+      this.getAll(year, month);
     };
 
     UpdateBalance.prototype.getAll = function getAll(year, month) {
@@ -736,12 +753,19 @@ define('components/updatebalance/updatebalance',['exports', 'aurelia-dependency-
       this.transactions = [];
 
       this.transactionService.getAll(params).then(function (response) {
-        _this2.transactions = response;
+        if (response) {
+          _this2.transactions = response;
 
-        _this2.transactions.forEach(function (element) {
-          element.month = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
-        });
-        _this2.monthString = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
+          _this2.transactions.forEach(function (element) {
+            element.month = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
+          });
+          _this2.monthString = (0, _moment2.default)(month + 1, 'MM').format('MMMM');
+          _this2.failLoading = null;
+        } else {
+          _this2.failLoading = 'Sorry, an error occured in loading the accouting balances.';
+        }
+      }, function (err) {
+        _this2.failLoading = 'Sorry, an error occured in loading the accouting balances.';
       });
     };
 
@@ -761,9 +785,14 @@ define('components/updatebalance/updatebalance',['exports', 'aurelia-dependency-
         };
 
         this.transactionService.save(params).then(function (response) {
+          _this3.success = "The balance was added successfully";
+          _this3.fail = null;
+          _this3.selectedAccountId = 1;
+          _this3.newAmount = null;
           _this3.getAll(_this3.year, _this3.month);
         }, function (err) {
-          console.log(err);
+          _this3.success = null;
+          _this3.fail = "The account balance failed saving.";
         });
       }
     };
@@ -772,7 +801,12 @@ define('components/updatebalance/updatebalance',['exports', 'aurelia-dependency-
       var _this4 = this;
 
       this.transactionService.destroy(transactionId).then(function (response) {
+        _this4.success = "The balance was removed successfully";
+        _this4.fail = null;
         _this4.getAll(_this4.year, _this4.month);
+      }, function (err) {
+        _this4.success = null;
+        _this4.fail = "The account balance failed removing.";
       });
     };
 
@@ -780,11 +814,9 @@ define('components/updatebalance/updatebalance',['exports', 'aurelia-dependency-
       var _this5 = this;
 
       var disp = document.getElementById('fileDisplayArea');
-      console.log(disp.innerText);
       this.convertTextToArray(disp.innerText);
-      console.log(this.excelData);
       var month = this.excelData[0][1] - 1;
-      var year = this.excelData[1][1] - 1;
+      var year = this.excelData[1][1];
       var RandD = this.excelData[3][1];
       var Canteen = this.excelData[4][1];
       var CEOCar = this.excelData[5][1];
@@ -802,7 +834,15 @@ define('components/updatebalance/updatebalance',['exports', 'aurelia-dependency-
       };
 
       this.transactionService.saveExcelBalanceData(postDate).then(function (data) {
+        _this5.success = 'The account balances were updated successfully.';
+        _this5.fail = null;
         _this5.getAll(year, month);
+        var disp = document.getElementById('fileDisplayArea');
+        disp.innerText = "";
+        _this5.fileLocation = [];
+      }, function (err) {
+        _this5.success = null;
+        _this5.fail = 'The account failed uploading.';
       });
     };
 
@@ -1317,8 +1357,8 @@ define('shared/services/apiservice',['exports', './config', 'aurelia-fetch-clien
       }).then(function (data) {
         data = data.json();
         return data;
-      }).catch(function (error) {
-        return "no token error";
+      }, function (err) {
+        return err;
       });
     };
 
@@ -1400,7 +1440,7 @@ define('shared/services/config',['exports'], function (exports) {
     value: true
   });
   var config = exports.config = {
-    api_url: 'https://abvwebapi.azurewebsites.net'
+    api_url: 'http://localhost:53046'
   };
 });
 define('shared/services/jwtservice',['exports'], function (exports) {
@@ -1614,7 +1654,10 @@ define('shared/services/userservice',['exports', 'aurelia-dependency-injection',
 
       if (this.jwtService.getToken()) {
         this.apiService.get('/token').then(function (data) {
-          return _this.setAuth(data);
+          _this.setAuth(data);
+          return data;
+        }, function (err) {
+          return "Error occured.";
         });
       } else {
         this.purgeAuth();
@@ -1651,7 +1694,7 @@ define('shared/services/userservice',['exports', 'aurelia-dependency-injection',
               _this2.purgeAuth();
               return "User login failed.";
             }
-          }).catch(function (promise) {
+          }, function (err) {
             _this2.purgeAuth();
             return "User login failed.";
           });
@@ -1659,7 +1702,7 @@ define('shared/services/userservice',['exports', 'aurelia-dependency-injection',
           _this2.purgeAuth();
           return "User login failed.";
         }
-      }).catch(function (promise) {
+      }, function (err) {
         _this2.purgeAuth();
         return "User login failed.";
       });
@@ -1668,7 +1711,7 @@ define('shared/services/userservice',['exports', 'aurelia-dependency-injection',
     UserService.prototype.getUserInfo = function getUserInfo() {
       return this.apiService.get('/api/Account/UserInfo').then(function (info) {
         return info;
-      }).catch(function (promise) {
+      }, function (err) {
         return "User reterival failed.";
       });
     };
@@ -1676,7 +1719,7 @@ define('shared/services/userservice',['exports', 'aurelia-dependency-injection',
     UserService.prototype.register = function register(credentials) {
       return this.apiService.post('/api/Account/Register', credentials).then(function (data) {
         return "User registration was successful.";
-      }).catch(function (promise) {
+      }, function (err) {
         return "User registration failed.";
       });
     };
@@ -1684,7 +1727,7 @@ define('shared/services/userservice',['exports', 'aurelia-dependency-injection',
     UserService.prototype.addRole = function addRole(role) {
       return this.apiService.post('/api/Account/AssignRole', role).then(function (data) {
         return "User role was added successful.";
-      }).catch(function (promise) {
+      }, function (err) {
         return "User role addtion failed.";
       });
     };
@@ -16098,14 +16141,14 @@ module.exports = function(Chart) {
 },{"1":1,"25":25,"45":45}]},{},[7])(7)
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"./shared/layouts/headerlayout\"></require><require from=\"./shared/layouts/footerlayout\"></require><header-layout router-config.bind=\"router.currentInstruction.config\"></header-layout><router-view></router-view><footer-layout></footer-layout></template>"; });
-define('text!components/auth/authcomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/value-converters/keys\"></require><div class=\"auth-page\"><div class=\"container page\"><div class=\"row\"><div class=\"col-md-6 offset-md-3 col-xs-12\"><h1 class=\"text-xs-center\">${type === 'login' ? 'Sign in' : 'Register'}</h1><ul class=\"error-messages\" if.bind=\"controller.errors\"><li repeat.for=\"error of controller.errors\"> ${error.message} </li></ul> ${errorMsg} <ul class=\"error-messages\"><li repeat.for=\"key of errors | keys\">${key}&nbsp;${errors[key]}</li></ul><form><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Email\" value.bind=\"email & validate\"></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Password\" value.bind=\"password & validate\"></fieldset><fieldset class=\"form-group\" if.bind=\"type === 'register'\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Confirm Password\" value.bind=\"confirmPassword & validate\"></fieldset><fieldset class=\"form-group\" if.bind=\"type === 'register'\"><select class=\"form-control\" value.bind=\"selectedRoleId\"><option repeat.for=\"role of roles\" model.bind=\"role.name\"> ${role.name} </option></select></fieldset><button class=\"btn btn-lg btn-primary pull-xs-right\" click.trigger=\"submit()\" disabled.bind=\"!canSave\"> ${type === 'login' ? 'Sign In' : 'Register'} </button></form></div></div></div></div></template>"; });
+define('text!components/auth/authcomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/value-converters/keys\"></require><div class=\"auth-page\"><div class=\"container page\"><div class=\"alert alert-danger\" if.bind=\"failLogin\"> ${failLogin} </div><div class=\"row\"><div class=\"col-md-6 offset-md-3 col-xs-12\"><h1 class=\"text-xs-center\">${type === 'login' ? 'Sign in' : 'Register'}</h1><ul class=\"error-messages\" if.bind=\"controller.errors\"><li repeat.for=\"error of controller.errors\"> ${error.message} </li></ul><ul class=\"error-messages\"><li repeat.for=\"key of errors | keys\">${key}&nbsp;${errors[key]}</li></ul><form><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Email\" value.bind=\"email & validate\"></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Password\" value.bind=\"password & validate\"></fieldset><fieldset class=\"form-group\" if.bind=\"type === 'register'\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Confirm Password\" value.bind=\"confirmPassword & validate\"></fieldset><fieldset class=\"form-group\" if.bind=\"type === 'register'\"><select class=\"form-control\" value.bind=\"selectedRoleId\"><option repeat.for=\"role of roles\" model.bind=\"role.name\"> ${role.name} </option></select></fieldset><button class=\"btn btn-lg btn-primary pull-xs-right\" click.trigger=\"submit()\" disabled.bind=\"!canSave\"> ${type === 'login' ? 'Sign In' : 'Register'} </button></form></div></div></div></div></template>"; });
 define('text!components/home/homecomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/elements/accountlist\"></require><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Account Balances</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='USER'\">You are not allowed to view this page.</p><p if.bind=\"sharedState.currentUser.role=='USER'\">Account Balance As per Month of ${monthString} ${year}</p></div></div><div class=\"container page\" if.bind=\"sharedState.currentUser.role=='USER'\"><account-list accounts.bind=\"accounts\"></account-list></div></div></template>"; });
 define('text!components/profile/profilearticlecomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/elements/articlelist\"></require><article-list articles.bind=\"articles\" total-pages.bind=\"totalPages\" page-number.bind=\"pageNumber\" current-page.bind=\"currentPage\" set-page-cb.call=\"setPageTo(pageNumber)\"></article-list></template>"; });
 define('text!components/profile/profilecomponent.html', ['module'], function(module) { module.exports = "<template><div class=\"profile-page\"><div class=\"user-info\"><div class=\"container\"><div class=\"row\"><div class=\"col-xs-12 col-md-10 offset-md-1\"><img src.bind=\"profile.image\" class=\"user-img\"><h4>${profile.username}</h4><p>${profile.bio}</p><button class=\"btn btn-sm btn-outline-secondary action-btn\" show.bind=\"!isUser\" click.delegate=\"onToggleFollowing()\"><i class=\"ion-plus-round\"></i> &nbsp; ${profile.following ? 'Unfollow' : 'Follow'} ${profile.username} </button> <a route-href=\"route: settings\" class=\"btn btn-sm btn-outline-secondary action-btn\" show.bind=\"isUser\"><i class=\"ion-gear-a\"></i> Edit Profile Settings</a></div></div></div></div><div class=\"container\"><div class=\"row\"><div class=\"col-xs-12 col-md-10 offset-md-1\"><div class=\"articles-toggle\"><ul class=\"nav nav-pills outline-active\"><li class=\"nav-item\"><a class=\"nav-link ${router.currentInstruction.config.name !== 'profilefavorites' ? 'active' : ''}\" route-href=\"route: profilearticle\">My Posts</a></li><li class=\"nav-item\"><a class=\"nav-link ${router.currentInstruction.config.name === 'profilefavorites' ? 'active' : ''}\" route-href=\"route: profilefavorites\">Favorited Posts</a></li></ul></div><router-view></router-view></div></div></div></div></template>"; });
 define('text!components/profile/profilefavoritescomponent.html', ['module'], function(module) { module.exports = "<template><require from=\"../../resources/elements/articlelist\"></require><article-list articles.bind=\"articles\" total-pages.bind=\"totalPages\" page-number.bind=\"pageNumber\" current-page.bind=\"currentPage\" set-page-cb.call=\"setPageTo(pageNumber)\"></article-list></template>"; });
 define('text!components/report/reportcomponent.html', ['module'], function(module) { module.exports = "<template><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Yearly Report</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='ADMIN'\">You are not allowed to do actions in this page.</p><p if.bind=\"sharedState.currentUser.role=='ADMIN'\">Select any year you want to view the balance chanage.</p></div></div><div class=\"container page\" if.bind=\"sharedState.currentUser.role=='ADMIN'\"><form><div class=\"form-group\"><label for=\"year\">Enter an the year to generate the report...</label> <input type=\"number\" class=\"form-control\" value.bind=\"year\" placeholder=\"year \" min=\"1900\" max=\"2100\"></div><div class=\"form-group\"><button class=\"btn\" click.delegate=\"getReport()\">Generate Report</button></div></form><div class=\"article-preview\" show.bind=\"!reportdata\">Loading...</div><canvas ref=\"chart\"></canvas></div></div></template>"; });
 define('text!components/settings/settingscomponent.html', ['module'], function(module) { module.exports = "<template><div class=\"settings-page\"><div class=\"container page\"><div class=\"row\"><div class=\"col-md-6 offset-md-3 col-xs-12\"><h1 class=\"text-xs-center\">Your Settings</h1><form><fieldset><fieldset class=\"form-group\"><input class=\"form-control\" type=\"text\" placeholder=\"URL of profile picture\" value.bind=\"sharedState.currentUser.image\"></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Your Name\" value.bind=\"sharedState.currentUser.username\"></fieldset><fieldset class=\"form-group\"><textarea class=\"form-control form-control-lg\" rows=\"8\" placeholder=\"Short bio about you\" value.bind=\"sharedState.currentUser.bio\"></textarea></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"text\" placeholder=\"Email\" value.bind=\"sharedState.currentUser.email\"></fieldset><fieldset class=\"form-group\"><input class=\"form-control form-control-lg\" type=\"password\" placeholder=\"Password\" value.bind=\"sharedState.currentUser.password\"></fieldset><button class=\"btn btn-lg btn-primary pull-xs-right\" click.delegate=\"update()\">Update Settings</button></fieldset></form><hr><button class=\"btn btn-outline-danger\" click.delegate=\"logout()\">Or click here to logout.</button></div></div></div></div></template>"; });
-define('text!components/updatebalance/updatebalance.html', ['module'], function(module) { module.exports = "<template><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Update Balances</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='ADMIN'\">You are not allowed to do actions in this page.</p><p if.bind=\"sharedState.currentUser.role=='ADMIN'\">Udate balances of the accounts.</p></div></div><div class=\"container page\" if.bind=\"sharedState.currentUser.role=='ADMIN'\"><form><div class=\"form-group\"><div><div class=\"row\"><label for=\"year\">Enter an the month and year to generate the report...</label></div><div class=\"row\"><select class=\"col-sm-4\" value.bind=\"month\"><option repeat.for=\"month of months\" model.bind=\"month.id\"> ${month.name} </option></select><div class=\"col-sm-1\"></div><input class=\"col-sm-4\" type=\"number\" value.bind=\"year\" placeholder=\"year \" min=\"1900\" max=\"2100\"><div class=\"col-sm-1\"></div><button class=\"btn\" click.delegate=\"getAll(year, month)\">Get Balances</button></div></div></div></form><div class=\"container\"><table id=\"mytable\" class=\"table table-bordred table-striped\"><thead><th>Account Name</th><th>Account Balance</th><th>Month</th><th>Year</th><th>Updated Time</th></thead><tbody><tr repeat.for=\"transaction of transactions\"><td>${transaction.accountName}</td><td>${transaction.amount}</td><td>${transaction.month}</td><td>${transaction.year}</td><td>${transaction.enteredDateTime}</td><td><button class=\"btn btn-danger btn-xs\" click.delegate=\"deleteTransaction(transaction.transactionId)\">Delete</button></td></tr><tr><td><select class=\"form-control\" value.bind=\"selectedAccountId\"><option repeat.for=\"account of accountList\" model.bind=\"account.Id\"> ${account.AccountDisplayName} </option></select></td><td><input type=\"number\" class=\"form-control\" value.bind=\"newAmount\" placeholder=\"Amount\"></td><td><button class=\"btn btn-success btn-xs\" click.delegate=\"addTransaction()\">Add+</button></td></tr></tbody></table><div class=\"alert alert-success\" if.bind=\"success\">Your file was uploaded <strong>Successfully!</strong></div><div class=\"alert alert-danger\" if.bind=\"fail\">Your file was <strong>failed</strong> uploading.</div><div class=\"alert alert-info\" if.bind=\"emptyFile\">Please brawse a file.</div><div class=\"jumbotron\"><p>Please upload the excel file. *Please reload the page of you encounter any problem.</p><div class=\"form-group\"><label for=\"file\">File:</label> <input type=\"text\" value.bind=\"fileLocation[0].name\" placeholder=\"File location\" disabled=\"disabled\"> <input type=\"file\" files.bind=\"fileLocation\" ref=\"htmlElement\" id=\"fileToUpload\" change.delegate=\"getAsText(fileLocation)\" accept=\".csv\"></div><div><pre id=\"fileDisplayArea\"></pre></div><div class=\"form-group\"></div><button class=\"btn\" click.delegate=\"upload(fileLocation)\">Upload</button></div></div></div></div></template>"; });
+define('text!components/updatebalance/updatebalance.html', ['module'], function(module) { module.exports = "<template><div class=\"home-page\"><div class=\"banner\"><div class=\"container\"><h1 class=\"logo-font\">Update Balances</h1><p if.bind=\"!sharedState.isAuthenticated\">Please Sign with your credentials to view to the Account blances of this month</p><p if.bind=\"sharedState.currentUser.role!='ADMIN'\">You are not allowed to do actions in this page.</p><p if.bind=\"sharedState.currentUser.role=='ADMIN'\">Udate balances of the accounts.</p></div></div><div class=\"container page\" if.bind=\"sharedState.currentUser.role=='ADMIN'\"><div class=\"alert alert-danger\" if.bind=\"failLoading\"> ${failLoading} </div><div class=\"alert alert-success\" if.bind=\"success\"> ${success} </div><div class=\"alert alert-danger\" if.bind=\"fail\"> ${fail} </div><form><div class=\"form-group\"><div><div class=\"row\"><label for=\"year\">Enter an the month and year to generate the report...</label></div><div class=\"row\"><select class=\"col-sm-4\" value.bind=\"month\"><option repeat.for=\"month of months\" model.bind=\"month.id\"> ${month.name} </option></select><div class=\"col-sm-1\"></div><input class=\"col-sm-4\" type=\"number\" value.bind=\"year\" placeholder=\"year \" min=\"1900\" max=\"2100\"><div class=\"col-sm-1\"></div><button class=\"btn\" click.delegate=\"getAllBtn(year, month)\">Get Balances</button></div></div></div></form><div class=\"container\"><table id=\"mytable\" class=\"table table-bordred table-striped\"><thead><th>Account Name</th><th>Account Balance</th><th>Month</th><th>Year</th><th>Updated Time</th></thead><tbody><tr repeat.for=\"transaction of transactions\"><td>${transaction.accountName}</td><td>${transaction.amount}</td><td>${transaction.month}</td><td>${transaction.year}</td><td>${transaction.enteredDateTime}</td><td><button class=\"btn btn-danger btn-xs\" click.delegate=\"deleteTransaction(transaction.transactionId)\">Delete</button></td></tr><tr><td><select class=\"form-control\" value.bind=\"selectedAccountId\"><option repeat.for=\"account of accountList\" model.bind=\"account.Id\"> ${account.AccountDisplayName} </option></select></td><td><input type=\"number\" class=\"form-control\" value.bind=\"newAmount\" placeholder=\"Amount\"></td><td><button class=\"btn btn-success btn-xs\" click.delegate=\"addTransaction()\">Add+</button></td></tr></tbody></table><div class=\"jumbotron\"><p>Please upload the excel file. *Please reload the page of you encounter any problem.</p><div class=\"form-group\"><label for=\"file\">File:</label> <input type=\"text\" value.bind=\"fileLocation[0].name\" placeholder=\"File location\" disabled=\"disabled\"> <input type=\"file\" files.bind=\"fileLocation\" ref=\"htmlElement\" id=\"fileToUpload\" change.delegate=\"getAsText(fileLocation)\" accept=\".csv\"></div><div><pre id=\"fileDisplayArea\"></pre></div><div class=\"form-group\"></div><button class=\"btn btn-success\" click.delegate=\"upload(fileLocation)\">Upload</button></div></div></div></div></template>"; });
 define('text!resources/elements/accountlist.html', ['module'], function(module) { module.exports = "<template><div class=\"article-preview\" show.bind=\"accounts.length === 0\">Loading...</div><div class=\"container\" show.bind=\"accounts.length !== 0\"><table id=\"mytable\" class=\"table table-bordred table-striped\"><thead><th>Account Name</th><th>Account Balance</th></thead><tbody><tr repeat.for=\"account of accounts\"><td>${account.accountName}</td><td>${account.amount}</td></tr></tbody></table></div></template>"; });
 define('text!resources/elements/accountpreview.html', ['module'], function(module) { module.exports = "<template><div class=\"card\" style=\"padding:1rem;width:18rem\"><div class=\"card-body\"><h5 class=\"card-title\">${account.accountName}</h5><h6 class=\"card-subtitle mb-2 text-muted\">${account.amount}</h6></div></div></template>"; });
 define('text!shared/layouts/footerlayout.html', ['module'], function(module) { module.exports = "<template><footer><div class=\"container\"><a href=\"/\" class=\"logo-font\">Account Balance Viewer</a> <span class=\"attribution\">An interactive project done by ABV.</span></div></footer></template>"; });

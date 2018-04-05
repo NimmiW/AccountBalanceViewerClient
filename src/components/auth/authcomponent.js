@@ -68,9 +68,15 @@ export class AuthComponent {
       };
       this.userService.attemptAuth(credentials)
       .then(response => {
-          this.errorMsg = response;
-   
-      })
+        console.log(response)
+        if(response=='User logged in successfully.') {
+          this.failLogin = null;
+        } else {
+          this.failLogin = 'Sorry, an error occured in during login.';
+        }
+      },err => {
+        this.failLogin = 'Sorry, an error occured in during login.';
+      });
     } else {
       const credentials = {
         Email: this.email,

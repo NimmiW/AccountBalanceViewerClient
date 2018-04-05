@@ -19,7 +19,12 @@ export class UserService {
   populate() {
     if (this.jwtService.getToken()) {
       this.apiService.get('/token')
-        .then(data => this.setAuth(data))
+        .then(data => {
+          this.setAuth(data)
+          return data;
+        },err => {
+          return "Error occured.";
+        })
     } else {
       // Remove any potential remnants of previous auth states
       this.purgeAuth();
@@ -58,7 +63,7 @@ export class UserService {
                 this.purgeAuth();
                 return "User login failed.";
               }
-            }).catch(promise => {
+            },err => {
               this.purgeAuth();
               return "User login failed.";
             });
@@ -67,7 +72,7 @@ export class UserService {
           return "User login failed.";
         }
 
-      }).catch(promise => {
+      },err => {
         this.purgeAuth();
         return "User login failed.";
       });
@@ -77,7 +82,7 @@ export class UserService {
     return this.apiService.get('/api/Account/UserInfo')
       .then(info => {
         return info;
-      }).catch(promise => {
+      }, err => {
         return "User reterival failed.";
       });
   }
@@ -86,7 +91,7 @@ export class UserService {
     return this.apiService.post('/api/Account/Register', credentials)
       .then(data => {
         return "User registration was successful.";
-      }).catch(promise => {
+      }, err => {
         return "User registration failed.";
       });
 
@@ -96,7 +101,7 @@ export class UserService {
     return this.apiService.post('/api/Account/AssignRole', role)
       .then(data => {
         return "User role was added successful.";
-      }).catch(promise => {
+      },err=> {
         return "User role addtion failed.";
       });
   }
