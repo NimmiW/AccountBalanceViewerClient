@@ -16,7 +16,6 @@ export class AuthComponent {
   roles = [];
   
   constructor(transactionService, userService, sharedState, router, controllerFactory) {
-    //this.type = 'login'
     this.transactionService = transactionService;
     this.userService = userService;
     this.sharedState = sharedState;
