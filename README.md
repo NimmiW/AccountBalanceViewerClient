@@ -101,12 +101,6 @@ It was made to Continuous integration. Once you commit and push, it automaticall
 - password: User@123
 
 **Password Policy**
-<br/>
-Should contain,
-- atleast non-alphanumeric character
-- atleast one digit
-- atleast one UpperCase charactor
-
 Should be minimum size of 6 charactors
 
 **Azure Paas I used:**
